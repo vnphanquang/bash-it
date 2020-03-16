@@ -15,9 +15,13 @@ RVM_THEME_PROMPT_SUFFIX="|"
 
 THEME_SHOW_USER_HOST=true
 
+GIT_BRANCH_MASTER_EMOJI="📦"
+GIT_BRANCH_DEVELOP_EMOJI="👷"
 GIT_BRANCH_FEATURE_EMOJI="💡"
 GIT_BRANCH_BUGFIX_EMOJI="🐞"
 GIT_BRANCH_HOTFIX_EMOJI="🌶️"
+GIT_BRANCH_REFACTOR_EMOJI="🔨"
+GIT_BRANCH_DOCS_EMOJI="📗"
 GIT_BRANCH_OTHER_EMOJI="🌱"
 
 
@@ -42,12 +46,20 @@ function user_host_prompt {
 
 function git_branch_emoji() {
   GIT_BRANCH=$(_git-branch)
-  if [[ "$GIT_BRANCH" =~ feature ]]; then
+  if [[ "$GIT_BRANCH" = "master" ]]; then
+    SCM_GIT_CHAR="${GIT_BRANCH_MASTER_EMOJI}"
+  elif [[ "$GIT_BRANCH" = "develop" ]]; then
+    SCM_GIT_CHAR="${GIT_BRANCH_DEVELOP_EMOJI}"
+  elif [[ "$GIT_BRANCH" =~ feature ]]; then
     SCM_GIT_CHAR="${GIT_BRANCH_FEATURE_EMOJI}"
   elif [[ "$GIT_BRANCH" =~ bug ]]; then
     SCM_GIT_CHAR="${GIT_BRANCH_BUGFIX_EMOJI}"
-  elif [[ "$GIT_BRANCH" =~ hot ]]; then
+  elif [[ "$GIT_BRANCH" =~ hotfix ]]; then
     SCM_GIT_CHAR="${GIT_BRANCH_HOTFIX_EMOJI}"
+  elif [[ "$GIT_BRANCH" =~ refactor ]]; then
+    SCM_GIT_CHAR="${GIT_BRANCH_REFACTOR_EMOJI}"
+  elif [[ "$GIT_BRANCH" =~ docs ]]; then
+    SCM_GIT_CHAR="${GIT_BRANCH_DOCS_EMOJI}"
   else
     SCM_GIT_CHAR="${GIT_BRANCH_OTHER_EMOJI}"
   fi
