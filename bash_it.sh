@@ -150,3 +150,8 @@ fi
 
 # Disable trap DEBUG on subshells - https://github.com/Bash-it/bash-it/pull/1040
 set +T
+
+# autojump manual activation for Debian-based system 
+. /usr/share/autojump/autojump.sh 
+
+export EDITOR=vim
