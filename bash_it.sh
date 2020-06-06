@@ -155,3 +155,6 @@ set +T
 . /usr/share/autojump/autojump.sh 
 
 export EDITOR=vim
+
+bind 'set show-all-if-ambiguous on'
+bind 'TAB:menu-complete'
