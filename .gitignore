@@ -17,3 +17,6 @@ bats
 enabled/*
 /enabled
 tmp/
+
+# To-be-fetched scripts
+completion/available/alacritty.bash
