@@ -1,83 +1,49 @@
 #!/usr/bin/env bash
 
-SCM_THEME_PROMPT_DIRTY=" ${red}✗"
-SCM_THEME_PROMPT_CLEAN=" ${bold_green}✓"
-SCM_THEME_PROMPT_PREFIX=" ${green}|"
-SCM_THEME_PROMPT_SUFFIX="${green}|"
+. "$BASH_IT/themes/farius/farius.base.bash"
+. "$BASH_IT/themes/farius/farius.context.bash"
+. "$BASH_IT/themes/farius/farius.git.bash"
+. "$BASH_IT/themes/farius/farius.assembler.bash"
 
-GIT_THEME_PROMPT_DIRTY=" ${red}✗"
-GIT_THEME_PROMPT_CLEAN=" ${bold_green}✓"
-GIT_THEME_PROMPT_PREFIX=" ${green}|"
-GIT_THEME_PROMPT_SUFFIX="${green}|"
+PROMPT_CHAR=${POWERLINE_PROMPT_CHAR:=""}
+POWERLINE_LEFT_SEPARATOR=${POWERLINE_LEFT_SEPARATOR:=""}
+POWERLINE_LEFT_SEPARATOR_SOFT=${POWERLINE_LEFT_SEPARATOR_SOFT:=""}
+POWERLINE_LEFT_LAST_SEGMENT_PROMPT_CHAR=${POWERLINE_LEFT_LAST_SEGMENT_PROMPT_CHAR:=""}
 
-RVM_THEME_PROMPT_PREFIX="|"
-RVM_THEME_PROMPT_SUFFIX="|"
+POWERLINE_COMPACT=${POWERLINE_COMPACT:=0}
+POWERLINE_COMPACT_BEFORE_SEPARATOR=${POWERLINE_COMPACT_BEFORE_SEPARATOR:=${POWERLINE_COMPACT}}
+POWERLINE_COMPACT_AFTER_SEPARATOR=${POWERLINE_COMPACT_AFTER_SEPARATOR:=${POWERLINE_COMPACT}}
+POWERLINE_COMPACT_BEFOR_FIRST_SEGMENT=${POWERLINE_COMPACT_BEFORE_FIRST_SEGMENT:=${POWERLINE_COMPACT}}
+POWERLINE_COMPACT_AFTER_LAST_SEGMENT=${POWERLINE_COMPACT_AFTER_LAST_SEGMENT:=${POWERLINE_COMPACT}}
+POWERLINE_COMPACT_PROMPT=${POWERLINE_COMPACT_PROMPT:=${POWERLINE_COMPACT}}
 
-THEME_SHOW_USER_HOST=true
+HISTORY_NUMBER_THEME_PROMPT_COLOR=${POWERLINE_HISTORY_NUMBER_COLOR:=241}
+HISTORY_NUMBER_THEME_PROMPT_CHAR=${POWERLINE_HISTORY_NUMBER_CHAR:="#"}
 
-GIT_BRANCH_MASTER_EMOJI="📦"
-GIT_BRANCH_DEVELOP_EMOJI="👷"
-GIT_BRANCH_FEATURE_EMOJI="💡"
-GIT_BRANCH_BUGFIX_EMOJI="🐞"
-GIT_BRANCH_HOTFIX_EMOJI="🌶️"
-GIT_BRANCH_REFACTOR_EMOJI="🔨"
-GIT_BRANCH_DOCS_EMOJI="📗"
-GIT_BRANCH_OTHER_EMOJI="🌱"
+USER_INFO_SSH_CHAR=${POWERLINE_USER_INFO_SSH_CHAR:=" "}
+USER_INFO_THEME_PROMPT_COLOR=${POWERLINE_USER_INFO_COLOR:=23}
+USER_INFO_THEME_PROMPT_COLOR_SUDO=${POWERLINE_USER_INFO_COLOR_SUDO:=208}
 
+CWD_THEME_PROMPT_COLOR=${POWERLINE_CWD_COLOR:=23}
 
-function battery_char {
-    if [[ "${THEME_BATTERY_PERCENTAGE_CHECK}" = true ]]; then
-        echo -e "🔋 ${bold_red}$(battery_percentage)%"
-    fi
-}
+NVM_THEME_PROMPT_PREFIX=""
+NVM_THEME_PROMPT_SUFFIX=""
+NODE_CHAR=${POWERLINE_NODE_CHAR:="❲n❳ "}
+NODE_THEME_PROMPT_COLOR=${POWERLINE_NODE_COLOR:=28}
 
-__farius_clock() {
-  if [ "${THEME_SHOW_CLOCK_CHAR}" == "true" ]; then
-    printf "$(clock_char)"
-  fi
-  printf "$(clock_prompt)"
-}
+KUBERNETES_CONTEXT_THEME_CHAR=${POWERLINE_KUBERNETES_CONTEXT_CHAR:="⎈ "}
+KUBERNETES_CONTEXT_THEME_PROMPT_COLOR=${POWERLINE_KUBERNETES_CONTEXT_COLOR:=26}
 
-function user_host_prompt {
-  if [[ "${THEME_SHOW_USER_HOST}" = "true" ]]; then
-      echo -e "${yellow}${USER_HOST_THEME_PROMPT_PREFIX}\u${reset_color}@${purple}\h${USER_HOST_THEME_PROMPT_SUFFIX}"
-  fi
-}
+LAST_STATUS_THEME_PROMPT_COLOR=${POWERLINE_LAST_STATUS_COLOR:=52}
 
-function git_branch_emoji() {
-  GIT_BRANCH=$(_git-branch)
-  if [[ "$GIT_BRANCH" = "master" ]]; then
-    SCM_GIT_CHAR="${GIT_BRANCH_MASTER_EMOJI}"
-  elif [[ "$GIT_BRANCH" = "develop" ]]; then
-    SCM_GIT_CHAR="${GIT_BRANCH_DEVELOP_EMOJI}"
-  elif [[ "$GIT_BRANCH" =~ feature ]]; then
-    SCM_GIT_CHAR="${GIT_BRANCH_FEATURE_EMOJI}"
-  elif [[ "$GIT_BRANCH" =~ bug ]]; then
-    SCM_GIT_CHAR="${GIT_BRANCH_BUGFIX_EMOJI}"
-  elif [[ "$GIT_BRANCH" =~ hotfix ]]; then
-    SCM_GIT_CHAR="${GIT_BRANCH_HOTFIX_EMOJI}"
-  elif [[ "$GIT_BRANCH" =~ refactor ]]; then
-    SCM_GIT_CHAR="${GIT_BRANCH_REFACTOR_EMOJI}"
-  elif [[ "$GIT_BRANCH" =~ docs ]]; then
-    SCM_GIT_CHAR="${GIT_BRANCH_DOCS_EMOJI}"
-  else
-    SCM_GIT_CHAR="${GIT_BRANCH_OTHER_EMOJI}"
-  fi
-}
-
-function prompt_command() {
-    git_branch_emoji
-    #PS1="${bold_cyan}$(scm_char)${green}$(scm_prompt_info)${purple}$(ruby_version_prompt) ${yellow}\h ${reset_color}in ${green}\w ${reset_color}\n${green}→${reset_color} "
-    # PS1="\n$(battery_char) $(__farius_clock)${yellow}$(ruby_version_prompt) $(user_host_prompt) ${reset_color}in ${green}\w\n$(scm_prompt_char_info) ${green}→${reset_color} "
-    PS1="$(__farius_clock) "
-    PS1+="$(user_host_prompt) "
-    PS1+="${reset_color}in ${green}\w\n$(scm_prompt_char_info) "
-    PS1+="${green}→${reset_color} "
-}
-
-THEME_SHOW_CLOCK_CHAR=${THEME_SHOW_CLOCK_CHAR:-"true"}
-THEME_CLOCK_CHAR_COLOR=${THEME_CLOCK_CHAR_COLOR:-"$yellow"}
-THEME_CLOCK_COLOR=${THEME_CLOCK_COLOR:-"$bold_cyan"}
+CLOCK_THEME_PROMPT_COLOR=${POWERLINE_CLOCK_COLOR:=240}
 THEME_CLOCK_FORMAT=${THEME_CLOCK_FORMAT:-"%Y.%m.%d %H:%M:%S"}
 
-safe_append_prompt_command prompt_command
+HOST_THEME_PROMPT_COLOR=${POWERLINE_HOST_COLOR:=232}
+
+SHLVL_THEME_PROMPT_COLOR=${POWERLINE_SHLVL_COLOR:=${HOST_THEME_PROMPT_COLOR}}
+SHLVL_THEME_PROMPT_CHAR=${POWERLINE_SHLVL_CHAR:="§"}
+
+POWERLINE_PROMPT=${POWERLINE_PROMPT:="history_number user_info cwd node k8s_context clock shlvl"}
+
+safe_append_prompt_command __powerline_prompt_command
